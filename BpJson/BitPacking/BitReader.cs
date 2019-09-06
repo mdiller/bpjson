@@ -33,8 +33,8 @@ namespace BpJson.BitPacking
 		/// </summary>
 		/// <param name="bytes">The bytes to read</param>
 		public BitReader(IEnumerable<byte> bytes)
-    {
-      Data = bytes.ToList();
+		{
+			Data = bytes.ToList();
 			Offset = 0;
 			Index = 0;
 		}
@@ -143,6 +143,35 @@ namespace BpJson.BitPacking
 		public object ReadObject(Type type)
 		{
 			return BinaryConverter.ReadObject(this, type);
+		}
+
+		/// <summary>
+		/// Rewind the given number of bits so that we can read them again
+		/// </summary>
+		/// <param name="bits">The number of bits to rewind</param>
+		public void Rewind(int bits)
+		{
+			while (bits > Offset)
+			{
+				bits -= 8;
+				Index--;
+			}
+			Offset -= bits;
+			VerifyIndex();
+		}
+
+		/// <summary>
+		/// Rewind the amount of bits it takes to read one of these types
+		/// </summary>
+		/// <param name="type">The type of item we are rewinding</param>
+		public void Rewind(Type type)
+		{
+			var converter = BinaryConverter.GetConverter(type);
+			if (converter.Bits == 0)
+			{
+				throw new ArgumentException("Cant rewind a variable number of bits");
+			}
+			Rewind(converter.Bits);
 		}
 
 		/// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,10 +40,10 @@ namespace BpJson.BitPacking
 		/// </summary>
 		public static readonly Endianness Endianness = Endianness.LittleEndian;
 
-    /// <summary>
-    /// The text encoding that the binaryconverters use
-    /// </summary>
-    public static readonly Encoding TextEncoding = Encoding.UTF8;
+		/// <summary>
+		/// The text encoding that the binaryconverters use
+		/// </summary>
+		public static readonly Encoding TextEncoding = Encoding.UTF8;
 
 		/// <summary>
 		/// Writes the given object to the bitwriter
@@ -170,19 +171,19 @@ namespace BpJson.BitPacking
 				Write = (v, writer) => writer.WriteBytes(FixEndianness(BitConverter.GetBytes(v))),
 				Read = reader => BitConverter.ToUInt32(FixEndianness(reader.ReadBytes(4)).ToArray(), 0)
 			},
-      new SimpleBinaryConverter<long>
-      {
-        BitCount = 8 * 8,
-        Write = (v, writer) => writer.WriteBytes(FixEndianness(BitConverter.GetBytes(v))),
-        Read = reader => BitConverter.ToInt64(FixEndianness(reader.ReadBytes(8)).ToArray(), 0)
-      },
-      new SimpleBinaryConverter<double>
-      {
-        BitCount = 8 * 8,
-        Write = (v, writer) => writer.WriteBytes(FixEndianness(BitConverter.GetBytes(v))),
-        Read = reader => BitConverter.ToDouble(FixEndianness(reader.ReadBytes(8)).ToArray(), 0)
-      },
-      new SimpleBinaryConverter<short>
+			new SimpleBinaryConverter<long>
+			{
+				BitCount = 8 * 8,
+				Write = (v, writer) => writer.WriteBytes(FixEndianness(BitConverter.GetBytes(v))),
+				Read = reader => BitConverter.ToInt64(FixEndianness(reader.ReadBytes(8)).ToArray(), 0)
+			},
+			new SimpleBinaryConverter<double>
+			{
+				BitCount = 8 * 8,
+				Write = (v, writer) => writer.WriteBytes(FixEndianness(BitConverter.GetBytes(v))),
+				Read = reader => BitConverter.ToDouble(FixEndianness(reader.ReadBytes(8)).ToArray(), 0)
+			},
+			new SimpleBinaryConverter<short>
 			{
 				BitCount = 2 * 8,
 				Write = (v, writer) => writer.WriteBytes(FixEndianness(BitConverter.GetBytes(v))),

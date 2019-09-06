@@ -9,7 +9,7 @@ namespace BpJson
 	/// The different kinds of items that can be stored in json
 	/// </summary>
 	[EnumMaxCount(8)]
-	public enum JsonItem
+	public enum BpJsonToken
 	{
 		/// <summary>
 		/// Marks the end of an Object or Array

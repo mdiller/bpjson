@@ -6,20 +6,20 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BpJson", "BpJson\BpJson.csproj", "{922EE83C-250C-4867-9213-A4274CE5856B}"
 EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{922EE83C-250C-4867-9213-A4274CE5856B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{922EE83C-250C-4867-9213-A4274CE5856B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{922EE83C-250C-4867-9213-A4274CE5856B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{922EE83C-250C-4867-9213-A4274CE5856B}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {4C1C0412-2730-4BCE-A895-8A59A4479814}
-	EndGlobalSection
+  GlobalSection(SolutionConfigurationPlatforms) = preSolution
+    Debug|Any CPU = Debug|Any CPU
+    Release|Any CPU = Release|Any CPU
+  EndGlobalSection
+  GlobalSection(ProjectConfigurationPlatforms) = postSolution
+    {922EE83C-250C-4867-9213-A4274CE5856B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    {922EE83C-250C-4867-9213-A4274CE5856B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    {922EE83C-250C-4867-9213-A4274CE5856B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    {922EE83C-250C-4867-9213-A4274CE5856B}.Release|Any CPU.Build.0 = Release|Any CPU
+  EndGlobalSection
+  GlobalSection(SolutionProperties) = preSolution
+    HideSolutionNode = FALSE
+  EndGlobalSection
+  GlobalSection(ExtensibilityGlobals) = postSolution
+    SolutionGuid = {4C1C0412-2730-4BCE-A895-8A59A4479814}
+  EndGlobalSection
 EndGlobal

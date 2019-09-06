@@ -7,11 +7,11 @@ using System.Text;
 
 namespace BpJson.BitPacking
 {
-	/// <summary>
-	/// Extension methods useful when bitpacking
-	/// </summary>
-	public static class BitPackingExtensions
-	{
+  /// <summary>
+  /// Extension methods useful when bitpacking
+  /// </summary>
+  public static class BitPackingExtensions
+  {
     /// <summary>
     /// Gzipped an array of bytes
     /// </summary>

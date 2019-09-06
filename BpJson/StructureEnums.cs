@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BpJson.BitPacking;
 
 namespace BpJson
 {
 	/// <summary>
 	/// The different kinds of items that can be stored in json
 	/// </summary>
+	[EnumMaxCount(8)]
 	public enum JsonItem
 	{
 		/// <summary>

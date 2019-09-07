@@ -13,7 +13,7 @@ namespace BpJson
     {
       JsonConvert.DefaultSettings = () => new JsonSerializerSettings
       {
-        DateParseHandling = DateParseHandling.None
+        DateParseHandling = DateParseHandling.None,
       };
 
       var json = (JToken)JsonConvert.DeserializeObject((File.ReadAllText("TestData/example1.json")));
@@ -64,7 +64,7 @@ namespace BpJson
             writer.Write(prop.Name);
             SerializeJsonNode(prop.Value, writer);
           }
-          writer.Write(BpJsonToken.EndOfItem);
+          writer.Write(BpJsonToken.EndOfList);
           break;
         case JTokenType.Array:
           writer.Write(BpJsonToken.Array);
@@ -73,7 +73,7 @@ namespace BpJson
           {
             SerializeJsonNode(item, writer);
           }
-          writer.Write(BpJsonToken.EndOfItem);
+          writer.Write(BpJsonToken.EndOfList);
           break;
         case JTokenType.String:
           writer.Write(BpJsonToken.String);
@@ -116,7 +116,7 @@ namespace BpJson
           while (true)
           {
             var elementType = reader.Read<BpJsonToken>();
-            if (elementType == BpJsonToken.EndOfItem)
+            if (elementType == BpJsonToken.EndOfList)
             {
               return obj;
             }
@@ -128,7 +128,7 @@ namespace BpJson
           while (true)
           {
             var elementType = reader.Read<BpJsonToken>();
-            if (elementType == BpJsonToken.EndOfItem)
+            if (elementType == BpJsonToken.EndOfList)
             {
               return array;
             }

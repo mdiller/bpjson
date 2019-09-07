@@ -26,10 +26,10 @@ namespace BpJson
       {
         SimpleTokenConverter.NullTokenConverter,
         SimpleTokenConverter.BooleanTokenConverter,
-        SimpleTokenConverter.NumberTokenConverter,
-        SimpleTokenConverter.StringTokenConverter,
         SimpleTokenConverter.ArrayTokenConverter,
-        SimpleTokenConverter.ObjectTokenConverter
+        ObjectTokenConverters.KeyMapping,
+        NumberTokenConverters.AsString,
+        StringTokenConverters.Simple
       };
     }
 

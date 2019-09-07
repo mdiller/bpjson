@@ -14,7 +14,7 @@ namespace BpJson
     /// <summary>
     /// Marks the end of an Object or Array
     /// </summary>
-    EndOfItem,
+    EndOfList,
 
     /// <summary>
     /// Marks the beginning of a json object

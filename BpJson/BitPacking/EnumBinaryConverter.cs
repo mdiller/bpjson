@@ -29,7 +29,7 @@ namespace BpJson.BitPacking
       {
         throw new ArgumentException($"The given enum '{typeof(T).Name}' has specified a max value count that is smaller than it's actual value count");
       }
-      internalConverter = new ConstrainedUIntBinaryConverter((int)(maxCountAttribute.Count - 1));
+      internalConverter = ConstrainedUIntBinaryConverter.FromMaxValue(maxCountAttribute.Count - 1);
     }
 
     private readonly ConstrainedUIntBinaryConverter internalConverter;
@@ -42,7 +42,7 @@ namespace BpJson.BitPacking
     /// <inheritdoc />
     public override void Write(T value, BitWriter writer)
     {
-      internalConverter.Write(Convert.ToInt32(value), writer);
+      internalConverter.Write((ulong)Convert.ToInt32(value), writer);
     }
 
     /// <inheritdoc />

@@ -41,11 +41,6 @@ namespace BpJson.BitPacking
     public static readonly Endianness Endianness = Endianness.LittleEndian;
 
     /// <summary>
-    /// The text encoding that the binaryconverters use
-    /// </summary>
-    public static readonly Encoding TextEncoding = Encoding.UTF8;
-
-    /// <summary>
     /// Writes the given object to the bitwriter
     /// </summary>
     /// <param name="obj">The object to write</param>
@@ -89,6 +84,11 @@ namespace BpJson.BitPacking
         else if (t.IsEnum)
         {
           converter = (BinaryConverter)Activator.CreateInstance(typeof(EnumBinaryConverter<>).MakeGenericType(t));
+        }
+        else if (typeof(IList).IsAssignableFrom(t) && t.IsGenericType)
+        {
+          var elementType = t.GenericTypeArguments[0];
+          converter = (BinaryConverter)Activator.CreateInstance(typeof(ListBinaryConverter<>).MakeGenericType(elementType));
         }
 
         if (converter == null)
@@ -177,6 +177,12 @@ namespace BpJson.BitPacking
         Write = (v, writer) => writer.WriteBytes(FixEndianness(BitConverter.GetBytes(v))),
         Read = reader => BitConverter.ToInt64(FixEndianness(reader.ReadBytes(8)).ToArray(), 0)
       },
+      new SimpleBinaryConverter<ulong>
+      {
+        BitCount = 8 * 8,
+        Write = (v, writer) => writer.WriteBytes(FixEndianness(BitConverter.GetBytes(v))),
+        Read = reader => BitConverter.ToUInt64(FixEndianness(reader.ReadBytes(8)).ToArray(), 0)
+      },
       new SimpleBinaryConverter<double>
       {
         BitCount = 8 * 8,
@@ -213,40 +219,7 @@ namespace BpJson.BitPacking
         Write = (v, writer) => writer.WriteBytes(FixEndianness(v.ToByteArray())),
         Read = reader => new Guid(reader.ReadBytes(16).ToArray())
       },
-      new SimpleBinaryConverter<string>
-      { // This is the variable length version. For the fixed length version, see ConstrainedStringBinaryConverter
-        BitCount = 0, // max of (8 * 2) + (8 * 2 * n) bits long, where n is the length of the string
-        Write = (v, writer) =>
-        {
-          if (v == null)
-          {
-            // Maxvalue indicates null
-            writer.WriteBytes(BitConverter.GetBytes(UInt16.MaxValue));
-          }
-          else
-          {
-            var data = TextEncoding.GetBytes(v);
-            if (data.Length >= UInt16.MaxValue)
-            {
-              throw new ArgumentException("String too long to be written to bytes");
-            }
-            // write byte count as a ushort
-            writer.WriteBytes(FixEndianness(BitConverter.GetBytes((ushort) data.Length)));
-            // write the encoded bytes
-            writer.WriteBytes(data);
-          }
-        },
-        Read = reader =>
-        {
-          // read byte count as a ushort (UInt16.MaxValue indicates null)
-          ushort byteCount = BitConverter.ToUInt16(FixEndianness(reader.ReadBytes(2)).ToArray(), 0);
-          if (byteCount == UInt16.MaxValue)
-          {
-            return null;
-          }
-          return TextEncoding.GetString(reader.ReadBytes(byteCount).ToArray());
-        }
-      }
+      new StringBinaryConverter(ushort.MaxValue - 1)
     };
   }
 

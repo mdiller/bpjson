@@ -28,7 +28,7 @@ namespace BpJson
         SimpleTokenConverter.BooleanTokenConverter,
         SimpleTokenConverter.ArrayTokenConverter,
         ObjectTokenConverters.KeyMapping,
-        NumberTokenConverters.AsString,
+        NumberTokenConverters.VariableNumbers,
         StringTokenConverters.Simple
       };
     }

@@ -33,6 +33,7 @@ namespace BpJson.BitPacking
       bitCount = bitCount == 0 ? 1 : bitCount; // bitcount starts at 1
       var bitCountExponent = Math.Ceiling(Math.Log(bitCount, 2));
       sizeConverter.Write((ulong)bitCountExponent, writer);
+      bitCount = (int)Math.Pow(2, bitCountExponent); // gotta go up to the next available one
       var converter = ConstrainedUIntBinaryConverter.FromBitCount(bitCount);
       converter.Write(value, writer);
     }

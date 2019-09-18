@@ -32,7 +32,7 @@ namespace BpJson.BitPacking
     {
       for (int i = 0; i < Bits; i++)
       {
-        writer.WriteBit((value & (ulong)(1 << i)) != 0);
+        writer.WriteBit((value & ((ulong)1 << i)) != 0);
       }
     }
 

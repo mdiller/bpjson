@@ -18,7 +18,13 @@ namespace BpJson
 
       var json = (JToken)JsonConvert.DeserializeObject((File.ReadAllText("TestData/example1.json")));
 
+      //ulong x = 4987815573;
+      //Console.WriteLine($"Before: {Convert.ToString((long)x, toBase: 2)}");
 
+      //ulong y = x << 4;
+      //Console.WriteLine($"After:  {Convert.ToString((long)y, toBase: 2)}");
+
+      //Console.ReadKey();
 
       //var outBytes = SerializeJson(json);
 
@@ -28,9 +34,14 @@ namespace BpJson
 
       //File.WriteAllText("out.json", outJson.ToString());
 
+      Console.WriteLine("Writing...");
+
       BpJsonWriter.WriteToFile("out.bpjson", json);
 
+      Console.WriteLine("Reading...");
+
       var outJson = BpJsonReader.ReadFromFile("out.bpjson");
+
 
       File.WriteAllText("out.json", outJson.ToString());
     }

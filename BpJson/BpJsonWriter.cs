@@ -13,56 +13,72 @@ namespace BpJson
   /// </summary>
   public class BpJsonWriter : BitWriter
   {
-  /// <summary>
-  /// The serializer settings to tell us how to write tokens
-  /// </summary>
-  public BpJsonSerializerSettings Settings { get; set; }
+    /// <summary>
+    /// The serializer settings to tell us how to write tokens
+    /// </summary>
+    public BpJsonSerializerSettings Settings { get; set; }
 
-  /// <summary>
-  /// ctor
-  /// </summary>
-  public BpJsonWriter()
-  {
-    Settings = new BpJsonSerializerSettings();
-  }
 
-  /// <summary>
-  /// Writes the header (initializes the tokenconverters if applicable)
-  /// </summary>
-  public void WriteHeader(JToken rootToken)
-  {
-    Settings.TokenConverters.ForEach(c => c.WriteTokenHeader(rootToken, this));
-  }
+    /// <summary>
+    /// The serializer settings to tell us how to write tokens
+    /// </summary>
+    public BpLogger Logger { get; set; }
 
-  /// <summary>
-  /// Writes a json token
-  /// </summary>
-  public void WriteToken(JToken token)
-  {
-    Settings.GetConverter(token.Type).WriteToken(token, this);
-  }
+    /// <summary>
+    /// ctor
+    /// </summary>
+    public BpJsonWriter()
+    {
+      Settings = new BpJsonSerializerSettings();
+      Logger = new BpLogger();
+    }
 
-  /// <summary>
-  /// Writes the given token to bytes
-  /// </summary>
-  /// <param name="token">The token to write</param>
-  /// <returns>The written bytes</returns>
-  public static List<byte> Convert(JToken token)
-  {
-    var writer = new BpJsonWriter();
-    writer.WriteHeader(token);
-    writer.WriteToken(token);
-    return writer.Data;
-  }
+    /// <summary>
+    /// Writes the header (initializes the tokenconverters if applicable)
+    /// </summary>
+    public void WriteHeader(JToken rootToken)
+    {
+      Settings.TokenConverters.ForEach(c =>
+      {
+        Logger.StartWriteHeader(c.BpJsonTokenType, this);
+        c.WriteTokenHeader(rootToken, this);
+        Logger.EndWriteHeader(c.BpJsonTokenType, this);
+      });
+    }
 
-  /// <summary>
-  /// Writes the given token to a file
-  /// </summary>
-  /// <param name="path">The name of the file to write to</param>
-  /// <param name="token">The token to write</param>
-  public static void WriteToFile(string path, JToken token)
-  {
-    File.WriteAllBytes(path, Convert(token).ToArray());
-  }
+    /// <summary>
+    /// Writes a json token
+    /// </summary>
+    public void WriteToken(JToken token)
+    {
+      var converter = Settings.GetConverter(token.Type);
+      Logger.StartWriteToken(converter.BpJsonTokenType, this);
+      converter.WriteToken(token, this);
+      Logger.EndWriteToken(converter.BpJsonTokenType, this);
+    }
+
+    /// <summary>
+    /// Writes the given token to bytes
+    /// </summary>
+    /// <param name="token">The token to write</param>
+    /// <returns>The written bytes</returns>
+    public static List<byte> Convert(JToken token)
+    {
+      var writer = new BpJsonWriter();
+      writer.WriteHeader(token);
+      writer.WriteToken(token);
+      writer.Logger.Print();
+      return writer.Data;
+    }
+
+    /// <summary>
+    /// Writes the given token to a file
+    /// </summary>
+    /// <param name="path">The name of the file to write to</param>
+    /// <param name="token">The token to write</param>
+    public static void WriteToFile(string path, JToken token)
+    {
+      File.WriteAllBytes(path, Convert(token).ToArray());
+    }
   }
 }

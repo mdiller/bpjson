@@ -16,7 +16,7 @@ namespace BpJson.BitPacking
     /// <summary>
     /// The bit offset that our 'cursor' is currently pointing to in the last byte
     /// </summary>
-    private int Offset { get; set; }
+    protected int Offset { get; set; }
 
     /// <summary>
     /// The current list of bytes
@@ -31,6 +31,11 @@ namespace BpJson.BitPacking
       Data = new List<byte>();
       Offset = 0;
     }
+
+    /// <summary>
+    /// The current number of written bits
+    /// </summary>
+    public int BitPosition => (Data.Count * 8) - (Offset == 0 ? 0 : 8 - Offset);
 
     /// <summary>
     /// The last byte in data, which is the one we will be writing to

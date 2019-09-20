@@ -8,17 +8,19 @@ This project allows you to serialize json to bytes in an extremely size-efficien
 
 #### Average/Medium File (TestData/example4.json)
 
-| Format          | Size (bytes)  | Compression Rate |
-| --------------- | ------------- | ---------------- |
-| json (oneline)  | 263,844       | original         |
-| bpjson          | 90,583        | 65.66%           |
+| Format           | Size (bytes)  | Compression Rate |
+| ---------------- | ------------- | ---------------- |
+| json (oneline)   | 263,844       | original         |
+| bpjson           | 90,583        | 65.66%           |
+| bpjson (gzipped) | 61,307        | 76.76%           |
 
 #### Large File (TestData/example4.json)
 
-| Format          | Size (bytes)  | Compression Rate |
-| --------------- | ------------- | ---------------- |
-| json (oneline)  | 14,005,976    | original         |
-| bpjson          | 3,644,121     | 73.98%           |
+| Format           | Size (bytes)  | Compression Rate |
+| ---------------- | ------------- | ---------------- |
+| json (oneline)   | 14,005,976    | original         |
+| bpjson           | 3,644,121     | 73.98%           |
+| bpjson (gzipped) | 1,609,857     | 88.51%           |
 
 # Why?
 
@@ -26,8 +28,8 @@ I have another project that does a lot of caching of json files. I've lately bee
 
 # Future Plans
 
-- Find better compression / serialization techniques.
-- Clean up the library and sort into a couple projects (Core, Core.BitPacking, Cli, etc.)
-- Add a tests project
-- Add GZipping
-- Implement in other languages
+- [x] Add GZipping
+- [ ] Find better compression / serialization techniques.
+- [ ] Clean up the library and sort into a couple projects (Core, Core.BitPacking, Cli, etc.)
+- [ ] Add a tests project
+- [ ] Implement in other languages

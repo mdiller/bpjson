@@ -47,9 +47,14 @@ namespace BpJson
     /// Reads the given bytes to jtoken
     /// </summary>
     /// <param name="data">The data to read in</param>
+    /// <param name="gzipped">Whether or not the data has been gzipped, and needs to be unzipped</param>
     /// <returns>The constructed JToken</returns>
-    public static JToken Convert(IEnumerable<byte> data)
+    public static JToken Convert(IEnumerable<byte> data, bool gzipped = false)
     {
+      if (gzipped)
+      {
+        data = data.UnGzip();
+      }
       var reader = new BpJsonReader(data);
       reader.ReadHeader();
       return reader.ReadToken();
@@ -62,7 +67,7 @@ namespace BpJson
     /// <returns>The constructed JToken</returns>
     public static JToken ReadFromFile(string path)
     {
-      return Convert(File.ReadAllBytes(path));
+      return Convert(File.ReadAllBytes(path), true);
     }
   }
 }

@@ -61,14 +61,15 @@ namespace BpJson
     /// Writes the given token to bytes
     /// </summary>
     /// <param name="token">The token to write</param>
+    /// <param name="gzip">Whether or not to gzip the bytes</param>
     /// <returns>The written bytes</returns>
-    public static List<byte> Convert(JToken token)
+    public static List<byte> Convert(JToken token, bool gzip = false)
     {
       var writer = new BpJsonWriter();
       writer.WriteHeader(token);
       writer.WriteToken(token);
       writer.Logger.Print();
-      return writer.Data;
+      return gzip ? writer.Data.Gzip() : writer.Data;
     }
 
     /// <summary>
@@ -78,7 +79,7 @@ namespace BpJson
     /// <param name="token">The token to write</param>
     public static void WriteToFile(string path, JToken token)
     {
-      File.WriteAllBytes(path, Convert(token).ToArray());
+      File.WriteAllBytes(path, Convert(token, true).ToArray());
     }
   }
 }

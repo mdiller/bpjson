@@ -8,19 +8,19 @@ This project allows you to serialize json to bytes in an extremely size-efficien
 
 #### Average/Medium File (TestData/example4.json)
 
-| Format           | Size (bytes)  | Compression Rate |
-| ---------------- | ------------- | ---------------- |
-| json (oneline)   | 263,844       | original         |
-| bpjson           | 90,583        | 65.66%           |
-| bpjson (gzipped) | 61,307        | 76.76%           |
+| Format           | Size (bytes)  | % of Original Size |
+| ---------------- | ------------- | ------------------ |
+| json (oneline)   | 263,844       | original           |
+| bpjson           | 90,583        | 34.34%             |
+| bpjson (gzipped) | 61,307        | 23.24%             |
 
 #### Large File (TestData/example4.json)
 
-| Format           | Size (bytes)  | Compression Rate |
-| ---------------- | ------------- | ---------------- |
-| json (oneline)   | 14,005,976    | original         |
-| bpjson           | 3,644,121     | 73.98%           |
-| bpjson (gzipped) | 1,609,857     | 88.51%           |
+| Format           | Size (bytes)  | % of Original Size |
+| ---------------- | ------------- | ------------------ |
+| json (oneline)   | 14,005,976    | original           |
+| bpjson           | 3,644,121     | 26.02%             |
+| bpjson (gzipped) | 1,609,857     | 11.49%             |
 
 # Why?
 

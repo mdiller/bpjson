@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using BpJson.BitPacking;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace BpJson.TokenPackers
@@ -97,6 +99,7 @@ namespace BpJson.TokenPackers
           var val1 = match.Groups[2].Value;
           variableIntConverter.Write(ulong.Parse(val1 != "" ? val1 : "0"), writer);
           var val2 = match.Groups[3].Value;
+          val2 = val2.ReverseChars();
           variableIntConverter.Write(ulong.Parse(val2 != "" ? val2 : "0"), writer);
         }
       },
@@ -115,8 +118,13 @@ namespace BpJson.TokenPackers
         {
           var signChar = signBit ? "" : "-";
           var val1 = variableIntConverter.Read(reader);
-          var val2 = variableIntConverter.Read(reader);
-          return JToken.Parse($"{signChar}{val1}.{val2}");
+          var val2Backwards = variableIntConverter.Read(reader);
+          var val2 = val2Backwards.ToString().ReverseChars();
+          using (var w = new JTokenWriter())
+          {
+            w.WriteRaw($"{signChar}{val1}.{val2}");
+            return w.CurrentToken;
+          }
         }
       }
     };

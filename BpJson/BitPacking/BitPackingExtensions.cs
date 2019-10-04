@@ -49,5 +49,17 @@ namespace BpJson.BitPacking
         }
       }
     }
+
+    /// <summary>
+    /// Reverses the order of a string
+    /// </summary>
+    /// <param name="value">The string value to reverse</param>
+    /// <returns></returns>
+    public static string ReverseChars(this string value)
+    {
+      char[] chars = value.ToCharArray();
+      Array.Reverse(chars);
+      return new string(chars);
+    }
   }
 }

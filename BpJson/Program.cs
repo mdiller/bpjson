@@ -13,12 +13,13 @@ namespace BpJson
   {
     public static void Main(string[] args)
     {
-      JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+      var settings = new JsonSerializerSettings
       {
         DateParseHandling = DateParseHandling.None,
+        FloatParseHandling = FloatParseHandling.Decimal
       };
 
-      var json = (JToken)JsonConvert.DeserializeObject((File.ReadAllText("TestData/example1.json")));
+      var json = (JToken)JsonConvert.DeserializeObject(File.ReadAllText("TestData/example1.json"), settings);
 
       Console.WriteLine("Writing...");
 
@@ -27,8 +28,6 @@ namespace BpJson
       Console.WriteLine("Reading...");
 
       var outJson = BpJsonReader.ReadFromFile("out.bpjson");
-
-      Console.ReadKey();
 
       File.WriteAllText("out.json", outJson.ToString());
     }

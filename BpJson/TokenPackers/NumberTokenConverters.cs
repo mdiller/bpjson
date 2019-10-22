@@ -72,7 +72,7 @@ namespace BpJson.TokenPackers
     };
 
     private static Regex floatPattern = new Regex("(-?)(\\d*)\\.(\\d*)");
-    private static VariableUIntBinaryConverter variableIntConverter = new VariableUIntBinaryConverter();
+    private static BinaryConverter<ulong> variableIntConverter = new SimpleVariableUIntBinaryConverter();
 
     /// <summary>
     /// Uses Variable sized integers for both ints and floats

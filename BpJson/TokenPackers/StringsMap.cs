@@ -22,7 +22,7 @@ namespace BpJson.TokenPackers
     {
       Strings = strings;
       MaxByteSize = maxByteSize;
-      IndexConverter = ConstrainedUIntBinaryConverter.FromMaxValue((ulong)Strings.Count);
+      IndexConverter = new VariableUIntBinaryConverter(new []{ 1, 3, 4, 8 });
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace BpJson.TokenPackers
     /// <summary>
     /// The converter used to write the index value of a string in the map
     /// </summary>
-    private ConstrainedUIntBinaryConverter IndexConverter { get; }
+    private BinaryConverter<ulong> IndexConverter { get; }
 
     /// <summary>
     /// Writes a string from the map to the bitwriter 
@@ -104,7 +104,12 @@ namespace BpJson.TokenPackers
     /// <returns>The key map</returns>
     public static StringsMap BuildFromJTokenKeys(JToken rootToken)
     {
-      var keys = KeysFromJToken(rootToken).Distinct().ToList();
+      var keyCountDictionary = KeysFromJToken(rootToken).GroupBy(s => s)
+          .Select(s => new { Key = s.Key, Count = s.Count() })
+          .ToDictionary(g => g.Key, g => g.Count);
+      var keyCounts = keyCountDictionary.ToList();
+      keyCounts.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
+      var keys = keyCounts.Select(kv => kv.Key).ToList();
       var maxByteSize = StringBinaryConverter.FindMaxByteSize(keys);
       return new StringsMap(keys, maxByteSize);
     }
